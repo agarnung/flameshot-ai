@@ -51,6 +51,7 @@ public:
         TYPE_INVERT = 22,
         TYPE_ACCEPT = 23,
         TYPE_CANCEL = 24,
+        TYPE_AI = 25,
     };
     Q_ENUM(Type);
 
@@ -69,6 +70,8 @@ public:
         REQ_SHOW_COLOR_PICKER,
         // Notify is the screenshot has been saved.
         REQ_CAPTURE_DONE_OK,
+        // Export tasks but keep the capture editor open (used by AI tool).
+        REQ_CAPTURE_DONE_OK_KEEP_OPEN,
         // Notify to redraw screenshot with tools without object selection.
         REQ_CLEAR_SELECTION,
         // Instance this->widget()'s widget inside the editor under the mouse.

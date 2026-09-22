@@ -19,6 +19,8 @@ target_sources(
 
         colorpickerwidget.h
         capture/capturetoolobjects.h
+        ai/aidialog.h
+        ai/aichatwidget.h
 )
 
 if (ENABLE_IMGUR)
@@ -46,6 +48,8 @@ target_sources(
         orientablepushbutton.cpp
         colorpickerwidget.cpp
         capture/capturetoolobjects.cpp
+        ai/aidialog.cpp
+        ai/aichatwidget.cpp
 )
 
 if (ENABLE_IMGUR)

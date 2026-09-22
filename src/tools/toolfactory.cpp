@@ -3,6 +3,7 @@
 
 #include "toolfactory.h"
 #include "tools/accept/accepttool.h"
+#include "tools/ai/aitool.h"
 #include "tools/arrow/arrowtool.h"
 #include "tools/circle/circletool.h"
 #include "tools/circlecount/circlecounttool.h"
@@ -66,6 +67,7 @@ CaptureTool* ToolFactory::CreateTool(CaptureTool::Type t, QObject* parent)
         if_TYPE_return_TOOL(TYPE_SIZEDECREASE, SizeDecreaseTool);
         if_TYPE_return_TOOL(TYPE_INVERT, InvertTool);
         if_TYPE_return_TOOL(TYPE_ACCEPT, AcceptTool);
+        if_TYPE_return_TOOL(TYPE_AI, AITool);
         default:
             return nullptr;
     }

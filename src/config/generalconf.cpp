@@ -70,6 +70,7 @@ GeneralConf::GeneralConf(QWidget* parent)
     initUploadHistoryMax();
     initUploadClientSecret();
 #endif
+    initIAIntegration();
     initPredefinedColorPaletteLarge();
     initShowSelectionGeometry();
 
@@ -128,6 +129,14 @@ void GeneralConf::_updateComponents(bool allowEmptySavePath)
     }
 
     m_showTray->setChecked(!config.disabledTrayIcon());
+
+    m_iaEnabled->setChecked(config.iaEnabled());
+    m_iaApiUrl->setText(config.iaApiUrl());
+    m_iaApiToken->setText(config.iaApiToken());
+    m_iaModel->setText(config.iaModel());
+    m_iaDefaultMode->setCurrentText(config.iaDefaultMode());
+    m_iaCopyResult->setChecked(config.iaCopyResult());
+    m_iaShowDialog->setChecked(config.iaShowDialog());
 
 #if !defined(Q_OS_MACOS)
     m_captureActiveMonitor->setChecked(config.captureActiveMonitor());
@@ -627,6 +636,119 @@ void GeneralConf::initUploadClientSecret()
 void GeneralConf::uploadClientKeyEdited()
 {
     ConfigHandler().setUploadClientSecret(m_uploadClientKey->text());
+}
+
+void GeneralConf::initIAIntegration()
+{
+    auto* box = new QGroupBox(tr("AI Integration"));
+    box->setFlat(true);
+    m_layout->addWidget(box);
+
+    auto* vboxLayout = new QVBoxLayout();
+    box->setLayout(vboxLayout);
+
+    m_iaEnabled = new QCheckBox(tr("Enable AI button and backend"), this);
+    connect(m_iaEnabled,
+            &QCheckBox::clicked,
+            this,
+            &GeneralConf::iaEnabledChanged);
+    vboxLayout->addWidget(m_iaEnabled);
+
+    auto* urlLayout = new QHBoxLayout();
+    urlLayout->addWidget(new QLabel(tr("API URL:"), this));
+    m_iaApiUrl = new QLineEdit(this);
+    m_iaApiUrl->setPlaceholderText(tr("https://api.openai.com/v1/chat/completions"));
+    connect(m_iaApiUrl,
+            &QLineEdit::editingFinished,
+            this,
+            &GeneralConf::iaApiUrlEdited);
+    urlLayout->addWidget(m_iaApiUrl);
+    vboxLayout->addLayout(urlLayout);
+
+    auto* tokenLayout = new QHBoxLayout();
+    tokenLayout->addWidget(new QLabel(tr("API Token:"), this));
+    m_iaApiToken = new QLineEdit(this);
+    m_iaApiToken->setEchoMode(QLineEdit::Password);
+    connect(m_iaApiToken,
+            &QLineEdit::editingFinished,
+            this,
+            &GeneralConf::iaApiTokenEdited);
+    tokenLayout->addWidget(m_iaApiToken);
+    vboxLayout->addLayout(tokenLayout);
+
+    auto* modelLayout = new QHBoxLayout();
+    modelLayout->addWidget(new QLabel(tr("Model:"), this));
+    m_iaModel = new QLineEdit(this);
+    m_iaModel->setPlaceholderText(tr("e.g. gpt-4o"));
+    connect(m_iaModel,
+            &QLineEdit::editingFinished,
+            this,
+            &GeneralConf::iaModelEdited);
+    modelLayout->addWidget(m_iaModel);
+    vboxLayout->addLayout(modelLayout);
+
+    auto* modeLayout = new QHBoxLayout();
+    modeLayout->addWidget(new QLabel(tr("Default mode:"), this));
+    m_iaDefaultMode = new QComboBox(this);
+    m_iaDefaultMode->addItem(tr("Ask"), QStringLiteral("ask"));
+    m_iaDefaultMode->addItem(tr("Translate"), QStringLiteral("translate"));
+    m_iaDefaultMode->addItem(tr("Explain"), QStringLiteral("explain"));
+    connect(m_iaDefaultMode,
+            QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this,
+            &GeneralConf::iaDefaultModeChanged);
+    modeLayout->addWidget(m_iaDefaultMode);
+    vboxLayout->addLayout(modeLayout);
+
+    m_iaShowDialog = new QCheckBox(tr("Show mode/prompt dialog before sending"), this);
+    connect(m_iaShowDialog,
+            &QCheckBox::clicked,
+            this,
+            &GeneralConf::iaShowDialogChanged);
+    vboxLayout->addWidget(m_iaShowDialog);
+
+    m_iaCopyResult = new QCheckBox(tr("Copy text result to clipboard on close"), this);
+    connect(m_iaCopyResult,
+            &QCheckBox::clicked,
+            this,
+            &GeneralConf::iaCopyResultChanged);
+    vboxLayout->addWidget(m_iaCopyResult);
+}
+
+void GeneralConf::iaEnabledChanged(bool checked)
+{
+    ConfigHandler().setIaEnabled(checked);
+}
+
+void GeneralConf::iaApiUrlEdited()
+{
+    ConfigHandler().setIaApiUrl(m_iaApiUrl->text());
+}
+
+void GeneralConf::iaApiTokenEdited()
+{
+    ConfigHandler().setIaApiToken(m_iaApiToken->text());
+}
+
+void GeneralConf::iaModelEdited()
+{
+    ConfigHandler().setIaModel(m_iaModel->text());
+}
+
+void GeneralConf::iaDefaultModeChanged(int index)
+{
+    Q_UNUSED(index)
+    ConfigHandler().setIaDefaultMode(m_iaDefaultMode->currentData().toString());
+}
+
+void GeneralConf::iaShowDialogChanged(bool checked)
+{
+    ConfigHandler().setIaShowDialog(checked);
+}
+
+void GeneralConf::iaCopyResultChanged(bool checked)
+{
+    ConfigHandler().setIaCopyResult(checked);
 }
 
 void GeneralConf::uploadHistoryMaxChanged(int max)

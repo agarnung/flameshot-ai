@@ -55,6 +55,13 @@ private slots:
     void togglePathFixed();
     void uploadClientKeyEdited();
     void useJpgForClipboardChanged(bool checked);
+    void iaEnabledChanged(bool checked);
+    void iaApiUrlEdited();
+    void iaApiTokenEdited();
+    void iaModelEdited();
+    void iaDefaultModeChanged(int index);
+    void iaCopyResultChanged(bool checked);
+    void iaShowDialogChanged(bool checked);
     void setSaveAsFileExtension(const QString& extension);
     void setGeometryLocation(int index);
     void setSelGeoHideTime(int v);
@@ -103,6 +110,7 @@ private:
     void initUseJpgForClipboard();
     void initUploadHistoryMax();
     void initUploadClientSecret();
+    void initIAIntegration();
     void initSaveLastRegion();
     void initShowSelectionGeometry();
     void initJpegQuality();
@@ -150,6 +158,13 @@ private:
     QLineEdit* m_savePath;
     QLineEdit* m_uploadClientKey;
     QPushButton* m_changeSaveButton;
+    QCheckBox* m_iaEnabled;
+    QLineEdit* m_iaApiUrl;
+    QLineEdit* m_iaApiToken;
+    QLineEdit* m_iaModel;
+    QComboBox* m_iaDefaultMode;
+    QCheckBox* m_iaCopyResult;
+    QCheckBox* m_iaShowDialog;
     QCheckBox* m_screenshotPathFixedCheck;
     QCheckBox* m_historyConfirmationToDelete;
     QCheckBox* m_useJpgForClipboard;

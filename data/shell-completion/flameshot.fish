@@ -85,6 +85,7 @@ __flameshot_complete gui --long-option "raw"              --short-option "r" --d
 __flameshot_complete gui --long-option "print-geometry"   --short-option "g" --description "Print geometry of the selection"                                       --no-files
 __flameshot_complete gui --long-option "pin"                                 --description "Pin the screenshot to the screen"                                      --no-files
 __flameshot_complete gui --long-option "accept-on-select" --short-option "s" --description "Accept capture as soon as a selection is made"                         --no-files
+__flameshot_complete gui --long-option "ai"               --short-option "i" --description "Send capture to the AI backend after accepting"                        --no-files
 __flameshot_complete gui --long-option "help"             --short-option "h" --description "Show the available arguments"                                          --no-files
 
 # SCREEN subcommand

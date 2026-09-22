@@ -324,6 +324,9 @@ int main(int argc, char* argv[])
     CommandOption acceptOnSelectOption(
       { "s", "accept-on-select" },
       QObject::tr("Accept capture as soon as a selection is made"));
+    CommandOption aiOption(
+      { "i", "ai" },
+      QObject::tr("Send capture to the AI backend after accepting"));
     CommandOption trayOption({ "t", "trayicon" },
                              QObject::tr("Enable or disable the trayicon"),
                              QStringLiteral("bool"));
@@ -442,7 +445,8 @@ int main(int argc, char* argv[])
                         rawImageOption,
                         selectionOption,
                         pinOption,
-                        acceptOnSelectOption },
+                        acceptOnSelectOption,
+                        aiOption },
                       guiArgument);
     parser.AddOptions({ screenNumberOption,
                         editOption,
@@ -509,6 +513,7 @@ int main(int argc, char* argv[])
         bool printGeometry = parser.isSet(selectionOption);
         bool pin = parser.isSet(pinOption);
         bool acceptOnSelect = parser.isSet(acceptOnSelectOption);
+        bool ai = parser.isSet(aiOption);
         CaptureRequest req(CaptureRequest::GRAPHICAL_MODE, delay, path);
         if (!region.isEmpty()) {
             auto selectionRegion = Region().value(region).toRect();
@@ -531,10 +536,13 @@ int main(int argc, char* argv[])
         if (pin) {
             req.addTask(CaptureRequest::PIN);
         }
+        if (ai) {
+            req.addTask(CaptureRequest::AI);
+        }
         if (acceptOnSelect) {
             req.addTask(CaptureRequest::ACCEPT_ON_SELECT);
             if (!clipboard && !raw && path.isEmpty() && !printGeometry &&
-                !pin) {
+                !pin && !ai) {
                 req.addSaveTask();
             }
         }

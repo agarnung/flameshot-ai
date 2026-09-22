@@ -98,8 +98,10 @@
         <file>img/material/white/move_up.svg</file>
         <file>img/material/white/delete.svg</file>
         <file>img/material/black/apps.svg</file>
+        <file>img/material/black/ai.svg</file>
         <file>img/material/black/image.svg</file>
         <file>img/material/white/apps.svg</file>
+        <file>img/material/white/ai.svg</file>
         <file>img/material/white/image.svg</file>
     </qresource>
 </RCC>

@@ -56,6 +56,7 @@ target_sources(
           text/texttool.cpp
           text/textwidget.cpp)
 target_sources(flameshot PRIVATE undo/undotool.h undo/undotool.cpp)
+target_sources(flameshot PRIVATE ai/aitool.h ai/aitool.cpp)
 
 target_sources(
   flameshot

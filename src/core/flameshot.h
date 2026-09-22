@@ -83,6 +83,7 @@ public slots:
 private:
     Flameshot();
     bool resolveAnyConfigErrors();
+    void runAIBackend(const QPixmap& capture);
 
     // class members
     static Origin m_origin;

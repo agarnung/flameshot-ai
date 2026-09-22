@@ -133,6 +133,13 @@ public:
                          setIgnoreUpdateToVersion,
                          QString)
     CONFIG_GETTER_SETTER(undoLimit, setUndoLimit, int)
+    CONFIG_GETTER_SETTER(iaEnabled, setIaEnabled, bool)
+    CONFIG_GETTER_SETTER(iaApiUrl, setIaApiUrl, QString)
+    CONFIG_GETTER_SETTER(iaApiToken, setIaApiToken, QString)
+    CONFIG_GETTER_SETTER(iaModel, setIaModel, QString)
+    CONFIG_GETTER_SETTER(iaDefaultMode, setIaDefaultMode, QString)
+    CONFIG_GETTER_SETTER(iaCopyResult, setIaCopyResult, bool)
+    CONFIG_GETTER_SETTER(iaShowDialog, setIaShowDialog, bool)
     CONFIG_GETTER_SETTER(buttons, setButtons, QList<CaptureTool::Type>)
     CONFIG_GETTER_SETTER(showMagnifier, setShowMagnifier, bool)
     CONFIG_GETTER_SETTER(squareMagnifier, setSquareMagnifier, bool)

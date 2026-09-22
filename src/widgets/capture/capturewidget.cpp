@@ -59,6 +59,7 @@ CaptureWidget::CaptureWidget(const CaptureRequest& req,
   , m_toolSizeByKeyboard(0)
   , m_mouseIsClicked(false)
   , m_captureDone(false)
+  , m_exportedKeepOpen(false)
   , m_previewEnabled(true)
   , m_adjustmentButtonPressed(false)
   , m_configError(false)
@@ -314,7 +315,9 @@ CaptureWidget::~CaptureWidget()
         }
     }
 #endif
-    if (m_captureDone) {
+    if (m_exportedKeepOpen) {
+        // Already exported while keeping the editor open; nothing else to do.
+    } else if (m_captureDone) {
         auto lastRegion = m_selection->geometry();
         const qreal scale = m_context.screenshot.devicePixelRatio();
         lastRegion.setTop(lastRegion.top() * scale);
@@ -350,6 +353,10 @@ void CaptureWidget::initButtons()
             buttonList->removeOne(CaptureTool::TYPE_OPEN_APP);
             buttonList->removeOne(CaptureTool::TYPE_PIN);
         }
+    }
+    if (!m_config.iaEnabled()) {
+        allButtonTypes.removeOne(CaptureTool::TYPE_AI);
+        visibleButtonTypes.removeOne(CaptureTool::TYPE_AI);
     }
     QVector<CaptureToolButton*> vectorButtons;
 
@@ -1454,6 +1461,17 @@ void CaptureWidget::handleToolSignal(CaptureTool::Request r)
         case CaptureTool::REQ_CAPTURE_DONE_OK:
             m_captureDone = true;
             break;
+        case CaptureTool::REQ_CAPTURE_DONE_OK_KEEP_OPEN: {
+            if (m_exportedKeepOpen) {
+                break;
+            }
+            m_exportedKeepOpen = true;
+            QRect geometry(m_context.selection);
+            geometry.setTopLeft(geometry.topLeft() + m_context.widgetOffset);
+            Flameshot::instance()->exportCapture(
+              pixmap(), geometry, m_context.request);
+            break;
+        }
         case CaptureTool::REQ_CLEAR_SELECTION:
             if (m_panel->activeLayerIndex() >= 0) {
                 m_panel->setActiveLayer(-1);

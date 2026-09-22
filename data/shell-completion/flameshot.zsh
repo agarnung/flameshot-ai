@@ -26,6 +26,7 @@ _flameshot_gui_opts=(
     {-g,--print-geometry}'[Print geometry of the selection in the format WxH+X+Y. Does nothing if raw is specified]'
     "--pin[Pin the capture to the screen]"
     {-s,--accept-on-select}'[Accept capture as soon as a selection is made]'
+    {-i,--ai}'[Send capture to the AI backend after accepting]'
     {-h,--help}'[Show the available arguments]'
 )
 
