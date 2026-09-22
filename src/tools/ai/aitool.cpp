@@ -2,9 +2,6 @@
 // SPDX-FileCopyrightText: 2026 Flameshot IA Contributors
 
 #include "aitool.h"
-#include "utils/pathinfo.h"
-
-#include <QPainter>
 
 AITool::AITool(QObject* parent)
   : AbstractActionTool(parent)
@@ -17,9 +14,8 @@ bool AITool::closeOnButtonPressed() const
 
 QIcon AITool::icon(const QColor& background, bool inEditor) const
 {
-    Q_UNUSED(background)
     Q_UNUSED(inEditor)
-    return QIcon(PathInfo::whiteIconPath() + "ai.svg");
+    return QIcon(iconPath(background) + "ai.svg");
 }
 
 QString AITool::name() const

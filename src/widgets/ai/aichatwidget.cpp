@@ -2,9 +2,11 @@
 // SPDX-FileCopyrightText: 2026 Flameshot IA Contributors
 
 #include "aichatwidget.h"
+#include "utils/confighandler.h"
 
 #include <QApplication>
 #include <QClipboard>
+#include <QCloseEvent>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QMessageBox>
@@ -84,4 +86,13 @@ void AIChatWidget::onCopyClicked()
 {
     QApplication::clipboard()->setText(m_responseEdit->toPlainText());
     m_statusLabel->setText(tr("Response copied to clipboard."));
+}
+
+void AIChatWidget::closeEvent(QCloseEvent* event)
+{
+    if (ConfigHandler().iaCopyResult() &&
+        !m_responseEdit->toPlainText().isEmpty()) {
+        QApplication::clipboard()->setText(m_responseEdit->toPlainText());
+    }
+    QWidget::closeEvent(event);
 }

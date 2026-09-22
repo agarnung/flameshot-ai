@@ -8,8 +8,8 @@
 #include <QPixmap>
 #include <QWidget>
 
+class QCloseEvent;
 class QLabel;
-class QPlainTextEdit;
 class QPushButton;
 class QTextEdit;
 
@@ -26,6 +26,9 @@ public:
                       const QString& mode,
                       const QString& prompt,
                       const QPixmap& image);
+
+protected:
+    void closeEvent(QCloseEvent* event) override;
 
 private slots:
     void onResponseReceived(const QString& text);
